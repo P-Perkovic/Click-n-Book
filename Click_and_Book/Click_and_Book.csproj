@@ -1,9 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Click_and_Book-A8218698-AF12-4632-8DAB-FA8ADBE5BE9D</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20210122093039_AddInitialModels.cs" />
+    <Compile Remove="Data\Migrations\20210122093039_AddInitialModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122112821_AddInitialModels.cs" />
+    <Compile Remove="Data\Migrations\20210122112821_AddInitialModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122114559_AddInitialModels.cs" />
+    <Compile Remove="Data\Migrations\20210122114559_AddInitialModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122114848_AddInitialModels.cs" />
+    <Compile Remove="Data\Migrations\20210122114848_AddInitialModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210122120525_AddInitialModels.cs" />
+    <Compile Remove="Data\Migrations\20210122120525_AddInitialModels.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
