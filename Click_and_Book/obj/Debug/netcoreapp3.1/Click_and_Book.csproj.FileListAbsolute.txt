@@ -162,3 +162,11 @@ D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\ru\Microsoft.C
 D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\SendGrid.dll
+D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs

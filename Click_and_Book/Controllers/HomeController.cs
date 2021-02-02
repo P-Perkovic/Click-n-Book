@@ -8,24 +8,27 @@ using Microsoft.Extensions.Logging;
 using Click_and_Book.Models;
 using Click_and_Book.Data;
 using Microsoft.AspNetCore.Identity;
+using Click_and_Book.Email;
 
 namespace Click_and_Book.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }

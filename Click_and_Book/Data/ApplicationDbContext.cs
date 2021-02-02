@@ -21,17 +21,5 @@ namespace Click_and_Book.Data
         public DbSet<ApartmentCategory> ApartmentCategories { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
-
-        //    builder.Entity<Owner>().ToTable("Owner");
-        //}
-
-        //public virtual void Configure(EntityTypeBuilder<Owner> builder)
-        //{
-        //    if (typeof(Owner).BaseType == null)
-        //        builder.ToTable(typeof(Owner).Name, "Owner");
-        //}
     }
 }
