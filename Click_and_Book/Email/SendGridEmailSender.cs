@@ -1,9 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Click_and_Book.Email
@@ -23,7 +27,7 @@ namespace Click_and_Book.Email
 
             var client = new SendGridClient(apiKey);
 
-            var from = new EmailAddress(details.FromEmail, details.FromName);
+            var from = new EmailAddress(SendEmailDetails.FromEmail, SendEmailDetails.FromName);
 
             var to = new EmailAddress(details.ToEmail, details.ToName);
 
@@ -37,10 +41,56 @@ namespace Click_and_Book.Email
                 subject, 
                 details.IsHTML ? null : content, 
                 details.IsHTML ? content : null);
+
+            msg.TemplateId = SendEmailDetails.TemplateId;
             
+            msg.SetTemplateData(details.TemplateData);
+
             var response = await client.SendEmailAsync(msg);
 
-            return new SendEmailResponse();
+            if(response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            {
+                return new SendEmailResponse();
+            }
+
+            try
+            {
+                var bodyResult = await response.Body.ReadAsStringAsync();
+
+                var sendGridResponse = JsonConvert.DeserializeObject<SendGridResponse>(bodyResult);
+
+                var errorReponse = new SendEmailResponse
+                {
+                    Errors = sendGridResponse?.Errors.Select(f => f.Message).ToList()
+                };
+
+                if (errorReponse.Errors == null || errorReponse.Errors.Count == 0)
+                {
+                    errorReponse.Errors = new List<string>(new[]
+                    {
+                        "Unknown error from email sending service."
+                    });
+                }
+
+                return errorReponse;
+            }
+            catch (Exception ex)
+            {
+                if (Debugger.IsAttached)
+                {
+                    var error = ex;
+                    Debugger.Break();
+
+                }
+
+                return new SendEmailResponse
+                {
+                    Errors = new List<string>(new[]
+                    {
+                        "Unknown error occurred"
+                    })
+                };
+            }
         }
     }
 }

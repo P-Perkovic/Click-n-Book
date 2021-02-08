@@ -170,3 +170,9 @@ D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Id
 D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\SendGrid.dll
 D:\Projects\Project_zoraja\Click_and_Book\bin\Debug\netcoreapp3.1\StarkbankEcdsa.dll
 D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\Home\AddApartments.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\Home\Apartments.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\Home\Contact.cshtml.g.cs

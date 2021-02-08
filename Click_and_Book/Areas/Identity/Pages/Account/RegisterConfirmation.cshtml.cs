@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Click_and_Book.Email;
 
 namespace Click_and_Book.Areas.Identity.Pages.Account
 {
@@ -13,9 +14,9 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly Email.IEmailSender _sender;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, Email.IEmailSender sender)
         {
             _userManager = userManager;
             _sender = sender;
@@ -26,6 +27,10 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
         public bool DisplayConfirmAccountLink { get; set; }
 
         public string EmailConfirmationUrl { get; set; }
+
+        public string ThisPageUrl { get; set; }
+
+        public bool Error { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
@@ -41,8 +46,10 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
             }
 
             Email = email;
+
+
             // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
+            //DisplayConfirmAccountLink = true;
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
@@ -53,6 +60,34 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
                     pageHandler: null,
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                     protocol: Request.Scheme);
+            }
+
+            else
+            {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    EmailConfirmationUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
+
+
+                    var emailDetails = new SendEmailDetails
+                    {
+                        ToEmail = Email,
+                        TemplateData = new EmailTemplateData
+                        {
+                            ActionUrl = EmailConfirmationUrl
+                        }
+                    };
+
+                    ThisPageUrl = $"/Identity/Account/RegisterConfirmation?email={Email}&returnUrl={returnUrl}";
+
+                    var result = await _sender.SendEmailAsync(emailDetails);
+                    Error = !(result.Successful);
+
             }
 
             return Page();

@@ -24,5 +24,7 @@ namespace Click_and_Book.Models
         public ApartmentCategory Category { get; set; }
         public string OwnerId { get; set; }
         public Owner Owner { get; set; }
+        public string Adress { get; set; }
+        public CityBlock CityBlock { get; set; }
     }
 }

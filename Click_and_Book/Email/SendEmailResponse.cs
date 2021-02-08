@@ -7,7 +7,7 @@ namespace Click_and_Book.Email
 {
     public class SendEmailResponse
     {
-        public bool Successful => ErrorMessage == null;
-        public string ErrorMessage { get; set; }
+        public bool Successful => !(Errors?.Count > 0) ;
+        public List<string> Errors { get; set; }
     }
 }

@@ -26,6 +26,9 @@ namespace Click_and_Book.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("AirConditioner")
                         .HasColumnType("bit");
 
@@ -36,6 +39,9 @@ namespace Click_and_Book.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CityBlockId")
                         .HasColumnType("int");
 
                     b.Property<int>("MaxPeople")
@@ -64,6 +70,8 @@ namespace Click_and_Book.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("CityBlockId");
+
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Apartments");
@@ -83,6 +91,22 @@ namespace Click_and_Book.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ApartmentCategories");
+                });
+
+            modelBuilder.Entity("Click_and_Book.Models.CityBlock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CityBlocks");
                 });
 
             modelBuilder.Entity("Click_and_Book.Models.Reservation", b =>
@@ -346,6 +370,10 @@ namespace Click_and_Book.Data.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Click_and_Book.Models.CityBlock", "CityBlock")
+                        .WithMany()
+                        .HasForeignKey("CityBlockId");
 
                     b.HasOne("Click_and_Book.Models.Owner", "Owner")
                         .WithMany("Apartments")

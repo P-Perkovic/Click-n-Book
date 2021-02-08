@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Click_and_Book.Email;
 using Click_and_Book.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -23,13 +24,13 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly Email.IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            Email.IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +47,10 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -82,12 +87,12 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
                 string role;
                 if(Input.Owner == true)
                 {
-                    user = new Owner { UserName = Input.Email, Email = Input.Email };
+                    user = new Owner { UserName = Input.UserName, Email = Input.Email };
                     role = "Owner";
                 }
                 else
                 {
-                    user = new Client { UserName = Input.Email, Email = Input.Email };
+                    user = new Client { UserName = Input.UserName, Email = Input.Email };
                     role = "Client";
                 }
 
@@ -97,17 +102,6 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, role);
 
                     _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
