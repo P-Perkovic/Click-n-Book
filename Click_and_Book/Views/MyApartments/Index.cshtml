@@ -1,0 +1,124 @@
+﻿@model Click_and_Book.ViewModels.MyApartmantsModel;
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div style="margin-top: 50px">
+    <a type="button" class="btn btn-danger" href="MyApartments/New">Add Apartment</a>
+</div>
+
+<br />
+<br />
+
+@if (Model.Apartments.Count() > 0)
+{
+    @foreach (var apartment in Model.Apartments)
+    {
+        <div class="container">
+            <div class="row" style="background-color: darkgrey">
+                <div class="col-lg">
+                    <div class="container">
+                        <div class="carousel">
+                            @{int i = 1; }
+                            @foreach (var image in apartment.Images)
+                            {
+                                if (i == 1)
+                                {
+                                    <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]" checked>
+                                }
+                                else
+                                {
+                                    <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]">
+                                }
+                                i++;
+                            }
+                            <ul class="carousel__items">
+                                @foreach (var image in apartment.Images)
+                                {
+                                    <li class="carousel__item">  <img src="~/ApartmentImages/@image.ImageName" alt="Image" class="img-fluid"></li>
+                                }
+                            </ul>
+                            <div class="carousel__prev">
+                                @{ i = 1;}
+                                @foreach (var image in apartment.Images)
+                                {
+                                    <label for="carousel_@apartment.Id-@i"></label>
+                                    i++;
+                                }
+                            </div>
+                            <div class="carousel__next">
+                                @{ i = 1;}
+                                @foreach (var image in apartment.Images)
+                                {
+                                    <label for="carousel_@apartment.Id-@i"></label>
+                                    i++;
+                                }
+                            </div>
+                            <div class="carousel__nav">
+                                @{ i = 1;}
+                                @foreach (var image in apartment.Images)
+                                {
+                                    <label for="carousel_@apartment.Id-@i"></label>
+                                    i++;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <h2>@apartment.Name</h2>
+                    </div>
+                    <div class="form-group">
+                        <p>Price par night: @apartment.Price</p>
+                    </div>
+                    <div class="form-group">
+                        <p>Number of beds: @apartment.NumBeds</p>
+                    </div>
+                    <div class="form-group">
+                        <p>Number of rooms: @apartment.NumRooms</p>
+                    </div>
+                    <div class="form-group">
+                        <p>Number of guests: @apartment.MaxPeople</p>
+                    </div>
+                    <div class="form-group">
+                        <p>Stars: @apartment.NumStars</p>
+                    </div>
+                    @if (apartment.Balcony == true)
+                    {
+                        <div class="form-group">
+                            <p>Balcony</p>
+                        </div>
+                    }
+                    @if (apartment.AirConditioner == true)
+                    {
+                        <div class="form-group">
+                            <p>Air Condition</p>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <p>Category: @apartment.Category.Name</p>
+                    </div>
+                    <div class="form-group">
+                        <p>Address: @apartment.Address</p>
+                    </div>
+                    <div class="form-group">
+                        <p>City Block: @apartment.CityBlock.Name</p>
+                    </div>
+                    <div style="margin-top: 50px">
+                        <a type="button" class="btn btn-danger" href="MyApartments/Edit/@apartment.Id">Edit Apartment</a>
+                        <a type="button" class="btn btn-danger" href="MyApartments/Delete/@apartment.Id">Delete Apartment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+}
+else
+{
+    <h4>You don't have apartment jet!</h4>
+}
+
+

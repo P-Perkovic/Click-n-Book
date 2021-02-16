@@ -24,18 +24,15 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly Email.IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
-            Email.IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
         }
 
         [BindProperty]
@@ -81,6 +78,11 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            var IsEmailExsist = await _userManager.FindByEmailAsync(Input.Email);
+            if(IsEmailExsist != null)
+            {
+                ModelState.AddModelError(string.Empty, "Email already exist!");
+            }
             if (ModelState.IsValid)
             {
                 IdentityUser user;

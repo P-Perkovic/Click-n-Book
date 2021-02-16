@@ -21,6 +21,7 @@ namespace Click_and_Book.Data
         public DbSet<ApartmentCategory> ApartmentCategories { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<CityBlock> CityBlocks { get; set; }
+        public DbSet<Image> Images { get; set; }
 
     }
 }

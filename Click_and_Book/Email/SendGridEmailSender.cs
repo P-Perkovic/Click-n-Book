@@ -27,7 +27,7 @@ namespace Click_and_Book.Email
 
             var client = new SendGridClient(apiKey);
 
-            var from = new EmailAddress(SendEmailDetails.FromEmail, SendEmailDetails.FromName);
+            var from = new EmailAddress(details.FromEmail, details.FromName);
 
             var to = new EmailAddress(details.ToEmail, details.ToName);
 
@@ -42,7 +42,10 @@ namespace Click_and_Book.Email
                 details.IsHTML ? null : content, 
                 details.IsHTML ? content : null);
 
-            msg.TemplateId = SendEmailDetails.TemplateId;
+            if (details.ReplayToEmail != null)
+                msg.SetReplyTo(new EmailAddress(details.ReplayToEmail, details.ReplayToName));
+
+            msg.TemplateId = details.TemplateId;
             
             msg.SetTemplateData(details.TemplateData);
 

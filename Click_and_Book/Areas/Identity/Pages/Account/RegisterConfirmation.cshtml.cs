@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Click_and_Book.Email;
+using Microsoft.Extensions.Configuration;
 
 namespace Click_and_Book.Areas.Identity.Pages.Account
 {
@@ -15,11 +16,13 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly Email.IEmailSender _sender;
+        private readonly IConfiguration _configuration;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, Email.IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, Email.IEmailSender sender, IConfiguration configuration)
         {
             _userManager = userManager;
             _sender = sender;
+            _configuration = configuration;
         }
 
         public string Email { get; set; }
@@ -76,7 +79,10 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
 
                     var emailDetails = new SendEmailDetails
                     {
+                        FromName = _configuration["EmailName"],
+                        FromEmail = _configuration["Email"],
                         ToEmail = Email,
+                        TemplateId = _configuration["TemplateId"],
                         TemplateData = new EmailTemplateData
                         {
                             ActionUrl = EmailConfirmationUrl

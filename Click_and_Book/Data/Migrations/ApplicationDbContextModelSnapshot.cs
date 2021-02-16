@@ -26,22 +26,21 @@ namespace Click_and_Book.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Adress")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<bool>("AirConditioner")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Balconiy")
+                    b.Property<bool>("Balcony")
                         .HasColumnType("bit");
-
-                    b.Property<int>("BuildYear")
-                        .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CityBlockId")
+                    b.Property<int>("CityBlockId")
                         .HasColumnType("int");
 
                     b.Property<int>("MaxPeople")
@@ -107,6 +106,26 @@ namespace Click_and_Book.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CityBlocks");
+                });
+
+            modelBuilder.Entity("Click_and_Book.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Click_and_Book.Models.Reservation", b =>
@@ -373,11 +392,22 @@ namespace Click_and_Book.Data.Migrations
 
                     b.HasOne("Click_and_Book.Models.CityBlock", "CityBlock")
                         .WithMany()
-                        .HasForeignKey("CityBlockId");
+                        .HasForeignKey("CityBlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Click_and_Book.Models.Owner", "Owner")
                         .WithMany("Apartments")
                         .HasForeignKey("OwnerId");
+                });
+
+            modelBuilder.Entity("Click_and_Book.Models.Image", b =>
+                {
+                    b.HasOne("Click_and_Book.Models.Apartment", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ApartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Click_and_Book.Models.Reservation", b =>

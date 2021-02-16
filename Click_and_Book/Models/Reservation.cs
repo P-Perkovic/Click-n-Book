@@ -14,7 +14,9 @@ namespace Click_and_Book.Models
         public Client Client { get; set; }
         public int ApartmentId { get; set; }
         public Apartment Apartment { get; set; }
+        [Required(ErrorMessage = "Please enter check-in time")]
         public DateTime TimeFrom { get; set; }
+        [Required(ErrorMessage = "Please enter check-out time")]
         public DateTime TimeTo { get; set; }
         public bool IsActive { get; set; }
         public bool IsCancel { get; set; }
