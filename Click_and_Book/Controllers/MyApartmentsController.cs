@@ -26,21 +26,26 @@ namespace Click_and_Book.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var  userId = _userManager.GetUserId(User);
             var apartments = _context.Apartments.Where(a => a.OwnerId == userId).ToList();
+            var myApartmentsModel = new MyApartmantsModel
+            {
+                Apartments = new List<ApartmentRezModel>()
+            };
+
             foreach (var apartmnet in apartments)
             {
+                var apartmentRez = new ApartmentRezModel();
                 apartmnet.Images = _context.Images.Where(i => i.ApartmentId == apartmnet.Id).ToList();
                 apartmnet.Category = _context.ApartmentCategories.FirstOrDefault(c => c.Id == apartmnet.CategoryId);
                 apartmnet.CityBlock = _context.CityBlocks.FirstOrDefault(b => b.Id == apartmnet.CityBlockId);
+                apartmentRez.Apartment = apartmnet;
+                apartmentRez.Reservations = _context.Reservations.Where(r => r.ApartmentId == apartmnet.Id && r.IsActive == true).ToList();
+                myApartmentsModel.Apartments.Add(apartmentRez);         
             }
-
-            var myApartmentsModel = new MyApartmantsModel
-            {
-                Apartments = apartments
-            };
 
             return View(myApartmentsModel);
         }
@@ -65,6 +70,7 @@ namespace Click_and_Book.Controllers
             return View("MyApartmentForm", viewModel);
         }
 
+        [HttpGet]
         public IActionResult Edit(int Id)
         {
             var categories = _context.ApartmentCategories.ToList();
@@ -109,11 +115,13 @@ namespace Click_and_Book.Controllers
         {
             var apartmentDbo = _context.Apartments.FirstOrDefault(a => a.Id == Id);
             var imagesDbo = _context.Images.Where(i => i.ApartmentId == Id);
+            var reservationsDbo = _context.Reservations.Where(r => r.ApartmentId == Id).ToList();
 
             foreach (var image in imagesDbo)
             {
                 System.IO.File.Delete("./wwwroot/ApartmentImages/" + image.ImageName);
             }
+            _context.RemoveRange(reservationsDbo);
             _context.RemoveRange(imagesDbo);
             _context.Remove(apartmentDbo);
             _context.SaveChanges();

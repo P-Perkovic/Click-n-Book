@@ -82,7 +82,7 @@ namespace Click_and_Book.Areas.Identity.Pages.Account
                         FromName = _configuration["EmailName"],
                         FromEmail = _configuration["Email"],
                         ToEmail = Email,
-                        TemplateId = _configuration["TemplateId"],
+                        TemplateId = _configuration["TemplateIdVerify"],
                         TemplateData = new EmailTemplateData
                         {
                             ActionUrl = EmailConfirmationUrl

@@ -13,7 +13,7 @@
 
 @if (Model.Apartments.Count() > 0)
 {
-    @foreach (var apartment in Model.Apartments)
+    @foreach (var apartmentRez in Model.Apartments)
     {
         <div class="container">
             <div class="row" style="background-color: darkgrey">
@@ -21,45 +21,45 @@
                     <div class="container">
                         <div class="carousel">
                             @{int i = 1; }
-                            @foreach (var image in apartment.Images)
+                            @foreach (var image in apartmentRez.Apartment.Images)
                             {
                                 if (i == 1)
                                 {
-                                    <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]" checked>
+                                    <input type="radio" id="carousel_@apartmentRez.Apartment.Id-@i" name="carousel[]" checked>
                                 }
                                 else
                                 {
-                                    <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]">
+                                    <input type="radio" id="carousel_@apartmentRez.Apartment.Id-@i" name="carousel[]">
                                 }
                                 i++;
                             }
                             <ul class="carousel__items">
-                                @foreach (var image in apartment.Images)
+                                @foreach (var image in apartmentRez.Apartment.Images)
                                 {
                                     <li class="carousel__item">  <img src="~/ApartmentImages/@image.ImageName" alt="Image" class="img-fluid"></li>
                                 }
                             </ul>
                             <div class="carousel__prev">
                                 @{ i = 1;}
-                                @foreach (var image in apartment.Images)
+                                @foreach (var image in apartmentRez.Apartment.Images)
                                 {
-                                    <label for="carousel_@apartment.Id-@i"></label>
+                                    <label for="carousel_@apartmentRez.Apartment.Id-@i"></label>
                                     i++;
                                 }
                             </div>
                             <div class="carousel__next">
                                 @{ i = 1;}
-                                @foreach (var image in apartment.Images)
+                                @foreach (var image in apartmentRez.Apartment.Images)
                                 {
-                                    <label for="carousel_@apartment.Id-@i"></label>
+                                    <label for="carousel_@apartmentRez.Apartment.Id-@i"></label>
                                     i++;
                                 }
                             </div>
                             <div class="carousel__nav">
                                 @{ i = 1;}
-                                @foreach (var image in apartment.Images)
+                                @foreach (var image in apartmentRez.Apartment.Images)
                                 {
-                                    <label for="carousel_@apartment.Id-@i"></label>
+                                    <label for="carousel_@apartmentRez.Apartment.Id-@i"></label>
                                     i++;
                                 }
                             </div>
@@ -68,47 +68,59 @@
                 </div>
                 <div class="col-sm">
                     <div class="form-group">
-                        <h2>@apartment.Name</h2>
+                        <h2>@apartmentRez.Apartment.Name</h2>
                     </div>
                     <div class="form-group">
-                        <p>Price par night: @apartment.Price</p>
+                        <p>Price par night: @apartmentRez.Apartment.Price</p>
                     </div>
                     <div class="form-group">
-                        <p>Number of beds: @apartment.NumBeds</p>
+                        <p>Number of beds: @apartmentRez.Apartment.NumBeds</p>
                     </div>
                     <div class="form-group">
-                        <p>Number of rooms: @apartment.NumRooms</p>
+                        <p>Number of rooms: @apartmentRez.Apartment.NumRooms</p>
                     </div>
                     <div class="form-group">
-                        <p>Number of guests: @apartment.MaxPeople</p>
+                        <p>Number of guests: @apartmentRez.Apartment.MaxPeople</p>
                     </div>
                     <div class="form-group">
-                        <p>Stars: @apartment.NumStars</p>
+                        <p>Stars: @apartmentRez.Apartment.NumStars</p>
                     </div>
-                    @if (apartment.Balcony == true)
+                    @if (apartmentRez.Apartment.Balcony == true)
                     {
                         <div class="form-group">
                             <p>Balcony</p>
                         </div>
                     }
-                    @if (apartment.AirConditioner == true)
+                    @if (apartmentRez.Apartment.AirConditioner == true)
                     {
                         <div class="form-group">
                             <p>Air Condition</p>
                         </div>
                     }
                     <div class="form-group">
-                        <p>Category: @apartment.Category.Name</p>
+                        <p>Category: @apartmentRez.Apartment.Category.Name</p>
                     </div>
                     <div class="form-group">
-                        <p>Address: @apartment.Address</p>
+                        <p>Address: @apartmentRez.Apartment.Address</p>
                     </div>
                     <div class="form-group">
-                        <p>City Block: @apartment.CityBlock.Name</p>
+                        <p>City Block: @apartmentRez.Apartment.CityBlock.Name</p>
                     </div>
+                    @if(apartmentRez.Reservations.Count() > 0)
+                    {
+                        <h5>Active Reservations</h5>
+                        @foreach (var reserv in apartmentRez.Reservations)
+                        {
+                            <p>@reserv.TimeFrom.ToShortDateString() - @reserv.TimeTo.ToShortDateString()</p>
+                        }
+                    }
+                    else
+                    {
+                        <h5>No reservations yet</h5>
+                    }
                     <div style="margin-top: 50px">
-                        <a type="button" class="btn btn-danger" href="MyApartments/Edit/@apartment.Id">Edit Apartment</a>
-                        <a type="button" class="btn btn-danger" href="MyApartments/Delete/@apartment.Id">Delete Apartment</a>
+                        <a type="button" class="btn btn-danger" href="MyApartments/Edit/@apartmentRez.Apartment.Id">Edit Apartment</a>
+                        <a type="button" class="btn btn-danger" href="MyApartments/Delete/@apartmentRez.Apartment.Id">Delete Apartment</a>
                     </div>
                 </div>
             </div>
@@ -118,7 +130,7 @@
 }
 else
 {
-    <h4>You don't have apartment jet!</h4>
+    <h4>You don't have apartment yet!</h4>
 }
 
 

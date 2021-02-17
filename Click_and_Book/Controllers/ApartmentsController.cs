@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Click_and_Book.Controllers
 {
-    [Authorize]
     public class ApartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +22,7 @@ namespace Click_and_Book.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             var apartmentSearchModel = new ApartmentSearchModel();
@@ -33,6 +33,7 @@ namespace Click_and_Book.Controllers
             return View(apartmentSearchModel);
         }
 
+        [HttpGet]
         public IActionResult Search(ApartmentSearchModel apartmentSearchModel)
         {
             var timeFrom = apartmentSearchModel.Reservation.TimeFrom;
@@ -42,7 +43,7 @@ namespace Click_and_Book.Controllers
             var reservations = _context.Reservations.Where(r => ((timeFrom > r.TimeFrom && timeFrom < r.TimeTo) ||
                                                                 (timeTo > r.TimeFrom && timeTo < r.TimeTo)) &&
                                                                 r.IsActive == true).ToList();
-            var apartments = _context.Apartments.ToList();
+            var apartments = _context.Apartments.Where(a => a.OwnerId != _userManager.GetUserId(User)).ToList();
             foreach (var reserv in reservations)
             {
                 var apartment = apartments.FirstOrDefault(a => a.Id == reserv.ApartmentId);
@@ -55,14 +56,54 @@ namespace Click_and_Book.Controllers
                                                       a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)
                                           .ToList();
 
-            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople).ToList());
+            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
+                                                          a.CityBlockId == apartmentSearchModel.Apartment.CityBlockId &&
+                                                          a.Balcony == apartmentSearchModel.Apartment.Balcony &&
+                                                          a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)
+                                              .ToList());
+
+            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
+                                                          a.CityBlockId == apartmentSearchModel.Apartment.CityBlockId &&
+                                                          (a.Balcony == apartmentSearchModel.Apartment.Balcony ||
+                                                          a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)&&
+                                                          (a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner !=
+                                                         a.Balcony == apartmentSearchModel.Apartment.Balcony))
+                                              .ToList());
+
+            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
+                                                          a.CityBlockId == apartmentSearchModel.Apartment.CityBlockId &&
+                                                          a.Balcony != apartmentSearchModel.Apartment.Balcony &&
+                                                          a.AirConditioner != apartmentSearchModel.Apartment.AirConditioner)
+                                              .ToList());
+
+            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
+                                                          a.CityBlockId != apartmentSearchModel.Apartment.CityBlockId &&
+                                                          a.Balcony == apartmentSearchModel.Apartment.Balcony &&
+                                                          a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)
+                                              .ToList());
+
+            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
+                                                         a.CityBlockId != apartmentSearchModel.Apartment.CityBlockId &&
+                                                         (a.Balcony == apartmentSearchModel.Apartment.Balcony ||
+                                                         a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)&&
+                                                         (a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner != 
+                                                         a.Balcony == apartmentSearchModel.Apartment.Balcony))
+                                             .ToList());
+
+            apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
+                                                          a.CityBlockId != apartmentSearchModel.Apartment.CityBlockId &&
+                                                          a.Balcony != apartmentSearchModel.Apartment.Balcony &&
+                                                          a.AirConditioner != apartmentSearchModel.Apartment.AirConditioner)
+                                              .ToList());
+
 
             apartmentSearchModel.FindeApartments = apartmentsSort;
             foreach (var apartment in apartmentSearchModel.FindeApartments)
             {
                 apartment.Images = _context.Images.Where(i => i.ApartmentId == apartment.Id).ToList();
                 apartment.Owner = _context.Owners.FirstOrDefault(u => u.Id == apartment.OwnerId);
-                apartment.Price = (apartmentSearchModel.Reservation.TimeTo.Day - apartmentSearchModel.Reservation.TimeFrom.Day) * apartment.Price;
+                var days = (apartmentSearchModel.Reservation.TimeTo.Ticks - apartmentSearchModel.Reservation.TimeFrom.Ticks) / 863850233856;
+                apartment.Price = (int)days * apartment.Price;
             }
 
             return View("Index", apartmentSearchModel);

@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace Click_and_Book.ViewModels
 {
-    public class MyApartmantsModel
+    public class ReservationsModel
     {
-        public List<ApartmentRezModel> Apartments { get; set; }
-    }
-
-    public class ApartmentRezModel
-    {
-        public Apartment Apartment { get; set; }
         public IEnumerable<Reservation> Reservations { get; set; }
     }
 }

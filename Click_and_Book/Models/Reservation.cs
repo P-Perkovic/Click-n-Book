@@ -18,6 +18,7 @@ namespace Click_and_Book.Models
         public DateTime TimeFrom { get; set; }
         [Required(ErrorMessage = "Please enter check-out time")]
         public DateTime TimeTo { get; set; }
+        public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public bool IsCancel { get; set; }
     }

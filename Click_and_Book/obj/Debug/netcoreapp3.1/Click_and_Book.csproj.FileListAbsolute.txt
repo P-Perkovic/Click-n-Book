@@ -177,3 +177,5 @@ D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Click_and_Book
 D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Click_and_Book.genruntimeconfig.cache
 D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\MyApartments\MyApartmentForm.cshtml.g.cs
 D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\Apartments\Index.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\Reservations\Index.cshtml.g.cs
+D:\Projects\Project_zoraja\Click_and_Book\obj\Debug\netcoreapp3.1\Razor\Views\Reservations\ReservationError.cshtml.g.cs

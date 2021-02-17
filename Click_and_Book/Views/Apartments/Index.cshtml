@@ -1,4 +1,7 @@
-﻿@model Click_and_Book.ViewModels.ApartmentSearchModel;
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager;
+@inject UserManager<IdentityUser> UserManager;
+@model Click_and_Book.ViewModels.ApartmentSearchModel;
 @{ ViewData["Title"] = "Apartments"; }
 
 <div class="tm-main-content" id="top">
@@ -70,114 +73,115 @@
 
     @if (Model.FindeApartments.Count() > 0)
     {
-        @foreach (var apartment in Model.FindeApartments)
-        {
+@foreach (var apartment in Model.FindeApartments)
+{
+<div class="container">
+    <div class="row" style="background-color: darkgrey">
+        <div class="col-lg">
             <div class="container">
-                <div class="row" style="background-color: darkgrey">
-                    <div class="col-lg">
-                        <div class="container">
-                            <div class="carousel">
-                                @{int i = 1; }
-                                @foreach (var image in apartment.Images)
-                                {
-                                    if (i == 1)
-                                    {
-                                        <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]" checked>
-                                    }
-                                    else
-                                    {
-                                        <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]">
-                                    }
-                                    i++;
-                                }
-                                <ul class="carousel__items">
-                                    @foreach (var image in apartment.Images)
-                                    {
-                                        <li class="carousel__item">  <img src="~/ApartmentImages/@image.ImageName" alt="Image" class="img-fluid"></li>
-                                    }
-                                </ul>
-                                <div class="carousel__prev">
-                                    @{ i = 1;}
-                                    @foreach (var image in apartment.Images)
-                                    {
-                                        <label for="carousel_@apartment.Id-@i"></label>
-                                        i++;
-                                    }
-                                </div>
-                                <div class="carousel__next">
-                                    @{ i = 1;}
-                                    @foreach (var image in apartment.Images)
-                                    {
-                                        <label for="carousel_@apartment.Id-@i"></label>
-                                        i++;
-                                    }
-                                </div>
-                                <div class="carousel__nav">
-                                    @{ i = 1;}
-                                    @foreach (var image in apartment.Images)
-                                    {
-                                        <label for="carousel_@apartment.Id-@i"></label>
-                                        i++;
-                                    }
-                                </div>
-                            </div>
-                        </div>
+                <div class="carousel">
+                    @{int i = 1; }
+                    @foreach (var image in apartment.Images)
+                    {
+                        if (i == 1)
+                        {
+                            <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]" checked> }
+                        else
+                        {
+                            <input type="radio" id="carousel_@apartment.Id-@i" name="carousel[]">}
+                            i++;
+                        }
+                    <ul class="carousel__items">
+                        @foreach (var image in apartment.Images)
+                        {
+                            <li class="carousel__item">  <img src="~/ApartmentImages/@image.ImageName" alt="Image" class="img-fluid"></li>
+                         }
+                    </ul>
+                    <div class="carousel__prev">
+                        @{ i = 1;}
+                        @foreach (var image in apartment.Images)
+                        {
+                            <label for="carousel_@apartment.Id-@i"></label>i++;
+                        }
                     </div>
-                    <div class="col-sm">
-                        <div class="form-group">
-                            <h2>@apartment.Name</h2>
-                        </div>
-                        <div class="form-group">
-                            <p>Price: @apartment.Price</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Number of beds: @apartment.NumBeds</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Number of rooms: @apartment.NumRooms</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Number of guests: @apartment.MaxPeople</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Stars: @apartment.NumStars</p>
-                        </div>
-                        @if (apartment.Balcony == true)
+                    <div class="carousel__next">
+                        @{ i = 1;}
+                        @foreach (var image in apartment.Images)
                         {
-                    <div class="form-group">
-                        <p>Balcony</p>
-                    </div>}
-                        @if (apartment.AirConditioner == true)
+                            <label for="carousel_@apartment.Id-@i"></label>i++;
+                        }
+                    </div>
+                    <div class="carousel__nav">
+                        @{ i = 1;}
+                        @foreach (var image in apartment.Images)
                         {
-                    <div class="form-group">
-                        <p>Air Condition</p>
-                    </div>}
-                        <div class="form-group">
-                            <p>Category: @apartment.Category.Name</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Address: @apartment.Address</p>
-                        </div>
-                        <div class="form-group">
-                            <p>City Block: @apartment.CityBlock.Name</p>
-                        </div>
-                        <div class="form-group">
-                            <p>Owner: @apartment.Owner.UserName</p>
-                        </div>
-                        <div style="margin-top: 50px">
-                            <form class="form-inline" asp-controller="Reservations" asp-action="Reserve">
-                                <input type="hidden" asp-for="Reservation.TimeFrom" class="form-control tm-select" />
-                                <input type="hidden" asp-for="Reservation.TimeTo" class="form-control tm-select" />
-                                <input type="hidden" asp-for="Reservation.ApartmentId" value="@apartment.Id" />
-                                <button type="submit" class="btn btn-danger">Reserve Apartment</button>
-                            </form>
-                        </div>
+                            <label for="carousel_@apartment.Id-@i"></label>i++;
+                        }
                     </div>
                 </div>
             </div>
-            <br />
-        }
-    }
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <h2>@apartment.Name</h2>
+            </div>
+            <div class="form-group">
+                <p>Price: @apartment.Price</p>
+            </div>
+            <div class="form-group">
+                <p>Number of beds: @apartment.NumBeds</p>
+            </div>
+            <div class="form-group">
+                <p>Number of rooms: @apartment.NumRooms</p>
+            </div>
+            <div class="form-group">
+                <p>Number of guests: @apartment.MaxPeople</p>
+            </div>
+            <div class="form-group">
+                <p>Stars: @apartment.NumStars</p>
+            </div>
+            @if (apartment.Balcony == true)
+            {
+                <div class="form-group">
+                    <p>Balcony</p>
+                </div>
+            }
+            @if (apartment.AirConditioner == true)
+            {
+                <div class="form-group">
+                    <p>Air Condition</p>
+                </div>
+             }
+            <div class="form-group">
+                <p>Category: @apartment.Category.Name</p>
+            </div>
+            <div class="form-group">
+                <p>Address: @apartment.Address</p>
+            </div>
+            <div class="form-group">
+                <p>City Block: @apartment.CityBlock.Name</p>
+            </div>
+            <div class="form-group">
+                <p>Owner: @apartment.Owner.UserName</p>
+            </div>
+            @if (SignInManager.IsSignedIn(User))
+            {
+            <div style="margin-top: 50px">
+                <form class="form-inline" asp-controller="Reservations" asp-action="Reserve">
+                    <input type="hidden" asp-for="Reservation.TimeFrom" class="form-control tm-select" />
+                    <input type="hidden" asp-for="Reservation.TimeTo" class="form-control tm-select" />
+                    <input type="hidden" asp-for="Reservation.ApartmentId" value="@apartment.Id" />
+                    <button type="submit" class="btn btn-danger">Reserve Apartment</button>
+                </form>
+            </div>
+            }
+
+        </div>
+    </div>
+</div>
+                    <br />
+  }
+}
 
     <div class="container ie-h-align-center-fix">
         <div class="row tm-flex-align-center">

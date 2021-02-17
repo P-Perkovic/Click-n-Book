@@ -13,8 +13,8 @@ namespace Click_and_Book.Models
         [Required(ErrorMessage = "Please enter Name")]
         public string Name { get; set; }
         [Display(Name = "Price per night")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter price")]
-        public int Price { get; set; }
+        [Range(0.01, 999999999, ErrorMessage = "Price must be greater than 0.00")]
+        public decimal Price { get; set; }
         [Required]
         [Display(Name = "Number of beds")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter number of beds")]
