@@ -28,7 +28,7 @@ namespace Click_and_Book.Controllers
             var apartmentSearchModel = new ApartmentSearchModel();
             apartmentSearchModel.Categoryes = _context.ApartmentCategories.ToList();
             apartmentSearchModel.CityBlocks = _context.CityBlocks.ToList();
-            apartmentSearchModel.FindeApartments = new List<Apartment>();
+            apartmentSearchModel.FindApartments = new List<Apartment>();
 
             return View(apartmentSearchModel);
         }
@@ -97,8 +97,8 @@ namespace Click_and_Book.Controllers
                                               .ToList());
 
 
-            apartmentSearchModel.FindeApartments = apartmentsSort;
-            foreach (var apartment in apartmentSearchModel.FindeApartments)
+            apartmentSearchModel.FindApartments = apartmentsSort;
+            foreach (var apartment in apartmentSearchModel.FindApartments)
             {
                 apartment.Images = _context.Images.Where(i => i.ApartmentId == apartment.Id).ToList();
                 apartment.Owner = _context.Owners.FirstOrDefault(u => u.Id == apartment.OwnerId);

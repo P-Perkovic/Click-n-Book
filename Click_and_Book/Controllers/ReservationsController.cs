@@ -40,13 +40,13 @@ namespace Click_and_Book.Controllers
             var reservationsDb = _context.Reservations.Where(r => r.ClientId == clientId)
                                                       .OrderByDescending(r => r.IsActive).ThenBy(r => r.IsCancel).ToList();
 
-            foreach (var reserv in reservationsDb)
+            foreach (var reservation in reservationsDb)
             {
-                reserv.Apartment = _context.Apartments.FirstOrDefault(a => a.Id == reserv.ApartmentId);
-                reserv.Apartment.CityBlock = _context.CityBlocks.FirstOrDefault(b => b.Id == reserv.Apartment.CityBlockId);
-                if(reserv.TimeTo < DateTime.Now)
+                reservation.Apartment = _context.Apartments.FirstOrDefault(a => a.Id == reservation.ApartmentId);
+                reservation.Apartment.CityBlock = _context.CityBlocks.FirstOrDefault(b => b.Id == reservation.Apartment.CityBlockId);
+                if(reservation.TimeTo < DateTime.Now)
                 {
-                    reserv.IsActive = false;
+                    reservation.IsActive = false;
                 }
             }
 

@@ -10,7 +10,7 @@ namespace Click_and_Book.ViewModels
     public class ApartmentSearchModel
     {
         public Apartment Apartment { get; set; }
-        public List<Apartment> FindeApartments { get; set; }
+        public List<Apartment> FindApartments { get; set; }
         public IEnumerable<ApartmentCategory> Categoryes { get; set; }
         public IEnumerable<CityBlock> CityBlocks { get; set; }
         public Reservation Reservation { get; set; }

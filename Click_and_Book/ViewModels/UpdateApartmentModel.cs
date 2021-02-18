@@ -11,7 +11,7 @@ namespace Click_and_Book.ViewModels
     public class UpdateApartmentModel
     {
         public Apartment Apartment { get; set; }
-        public IEnumerable<ApartmentCategory> Categoryes { get; set; }
+        public IEnumerable<ApartmentCategory> Categories { get; set; }
         public IEnumerable<CityBlock> CityBlocks { get; set; }
         [Display(Name ="Apartment Images")]
         public List<IFormFile> ImageFiles { get; set; }

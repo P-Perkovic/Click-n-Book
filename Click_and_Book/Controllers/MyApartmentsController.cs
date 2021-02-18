@@ -62,7 +62,7 @@ namespace Click_and_Book.Controllers
             var viewModel = new UpdateApartmentModel
             {
                 Apartment = apartment,
-                Categoryes = categories,
+                Categories = categories,
                 CityBlocks = cityBlocks,
                 Title = "New"
             };
@@ -83,7 +83,7 @@ namespace Click_and_Book.Controllers
             var viewModel = new UpdateApartmentModel
             {
                 Apartment = apartment,
-                Categoryes = categories,
+                Categories = categories,
                 CityBlocks = cityBlocks,
                 Title = "Edit"
             };
