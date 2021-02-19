@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Click_and_Book.CustomAttributes;
 
 namespace Click_and_Book.Models
 {
@@ -24,40 +25,6 @@ namespace Click_and_Book.Models
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public bool IsCancel { get; set; }
+        public bool IsApproved { get; set; }
     }
-
-    #region Validation Atributes
-    public class FromNowAttribute : ValidationAttribute
-    {
-        public FromNowAttribute() { }
-
-        public string GetErrorMessage() => $"Date must be set past {DateTime.Now.ToString("dd-MM-yyyy")}";
-
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var date = (DateTime)value;
-
-            if (DateTime.Compare(date, DateTime.Now) < 0) 
-                return new ValidationResult(GetErrorMessage());
-            else 
-                return ValidationResult.Success;
-        }
-    }
-
-    public class TimeFromValidated : ValidationAttribute
-    {
-        protected override ValidationResult
-                IsValid(object value, ValidationContext validationContext)
-        {
-            var model = (Models.Reservation)validationContext.ObjectInstance;
-            DateTime EndDate = Convert.ToDateTime(model.TimeTo);
-            DateTime StartDate = Convert.ToDateTime(value);
-
-            if (StartDate > EndDate)
-                return new ValidationResult("Check in date must lower than check out date");
-            else
-                return ValidationResult.Success;
-        }
-    }
-    #endregion
 }

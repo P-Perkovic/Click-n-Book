@@ -118,5 +118,15 @@ namespace Click_and_Book.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Approve(int Id)
+        {
+            var reservationDbo = _context.Reservations.FirstOrDefault(r => r.Id == Id);
+            reservationDbo.IsApproved = true;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "MyApartments");
+        }
     }
 }

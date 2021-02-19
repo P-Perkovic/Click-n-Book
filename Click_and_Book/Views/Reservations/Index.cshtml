@@ -10,7 +10,7 @@
     <h2>@reserv.Apartment.Name</h2>
     <p>Location: @reserv.Apartment.Address, @reserv.Apartment.CityBlock.Name</p>
     <p>Period: @reserv.TimeFrom.Date.ToShortDateString() - @reserv.TimeTo.Date.ToShortDateString()</p>
-    <p>Price: @reserv.Price</p>
+    <p>Price: @reserv.Price kn</p>
     @if (reserv.IsCancel == false && reserv.IsActive == false)
     {
         <h4>Past</h4>
@@ -21,6 +21,14 @@
     }
     @if (reserv.IsActive == true && reserv.TimeFrom > DateTime.Now)
     {
+        @if (reserv.IsApproved == true)
+        {
+            <h4>Approved</h4>
+        }
+        else
+        {
+            <h4>Pay process</h4>
+        }
         <h4>Active</h4>
             <a type="button" class="btn btn-danger" href="Reservations/Cancel/@reserv.Id">Cancel</a>
     }

@@ -71,7 +71,7 @@
                         <h2>@apartmentRez.Apartment.Name</h2>
                     </div>
                     <div class="form-group">
-                        <p>Price par night: @apartmentRez.Apartment.Price</p>
+                        <p>Price par night: @apartmentRez.Apartment.Price kn</p>
                     </div>
                     <div class="form-group">
                         <p>Number of beds: @apartmentRez.Apartment.NumBeds</p>
@@ -111,7 +111,12 @@
                         <h5>Active Reservations</h5>
                         @foreach (var reserv in apartmentRez.Reservations)
                         {
-                            <p>@reserv.TimeFrom.ToShortDateString() - @reserv.TimeTo.ToShortDateString()</p>
+                            <p>Invoice# @reserv.Id: @reserv.TimeFrom.ToShortDateString() - @reserv.TimeTo.ToShortDateString()
+                                @if (reserv.IsApproved == false)
+                                {
+                                    <a class="btn btn-info btn-sm" href="Reservations/Approve/@reserv.Id">Approve</a>
+                                }
+                            </p>
                         }
                     }
                     else

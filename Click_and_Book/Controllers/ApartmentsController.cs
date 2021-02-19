@@ -60,6 +60,7 @@ namespace Click_and_Book.Controllers
                                                           a.CityBlockId == apartmentSearchModel.Apartment.CityBlockId &&
                                                           a.Balcony == apartmentSearchModel.Apartment.Balcony &&
                                                           a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)
+                                              .OrderBy(a => a.MaxPeople)
                                               .ToList());
 
             apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
@@ -68,18 +69,21 @@ namespace Click_and_Book.Controllers
                                                           a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)&&
                                                           (a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner !=
                                                          a.Balcony == apartmentSearchModel.Apartment.Balcony))
+                                              .OrderBy(a => a.MaxPeople)
                                               .ToList());
 
             apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
                                                           a.CityBlockId == apartmentSearchModel.Apartment.CityBlockId &&
                                                           a.Balcony != apartmentSearchModel.Apartment.Balcony &&
                                                           a.AirConditioner != apartmentSearchModel.Apartment.AirConditioner)
+                                              .OrderBy(a => a.MaxPeople)
                                               .ToList());
 
             apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
                                                           a.CityBlockId != apartmentSearchModel.Apartment.CityBlockId &&
                                                           a.Balcony == apartmentSearchModel.Apartment.Balcony &&
                                                           a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)
+                                              .OrderBy(a => a.MaxPeople)
                                               .ToList());
 
             apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
@@ -88,12 +92,14 @@ namespace Click_and_Book.Controllers
                                                          a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner)&&
                                                          (a.AirConditioner == apartmentSearchModel.Apartment.AirConditioner != 
                                                          a.Balcony == apartmentSearchModel.Apartment.Balcony))
+                                             .OrderBy(a => a.MaxPeople)
                                              .ToList());
 
             apartmentsSort.AddRange(apartments.Where(a => a.MaxPeople >= apartmentSearchModel.Apartment.MaxPeople &&
                                                           a.CityBlockId != apartmentSearchModel.Apartment.CityBlockId &&
                                                           a.Balcony != apartmentSearchModel.Apartment.Balcony &&
                                                           a.AirConditioner != apartmentSearchModel.Apartment.AirConditioner)
+                                              .OrderBy(a => a.MaxPeople)
                                               .ToList());
 
 
