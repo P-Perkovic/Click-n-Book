@@ -11,6 +11,7 @@
     <p>Location: @reserv.Apartment.Address, @reserv.Apartment.CityBlock.Name</p>
     <p>Period: @reserv.TimeFrom.Date.ToShortDateString() - @reserv.TimeTo.Date.ToShortDateString()</p>
     <p>Price: @reserv.Price kn</p>
+    <p>Invoice#: @reserv.Id</p>
     @if (reserv.IsCancel == false && reserv.IsActive == false)
     {
         <h4>Past</h4>
